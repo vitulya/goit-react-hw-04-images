@@ -110,9 +110,6 @@ export class App extends Component {
         />
         {isLoading && <Loader />}
         {error && <h1>Спробуйте перезагрузити сторінку...</h1>}
-        {/* {images && totalHits > page * 12 && (
-          <Button onClick={this.handleChangePage} />
-        )} */}
         {images?.length < totalHits && (
           <Button onClick={this.handleChangePage} />
         )}
