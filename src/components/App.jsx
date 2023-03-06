@@ -1,5 +1,4 @@
 import css from './App.module.css';
-// import { Component } from 'react';
 import { useState, useEffect } from 'react';
 import { getImages } from '../services/images.service.jsx';
 
@@ -19,36 +18,6 @@ export const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [totalHits, setTotalHits] = useState(null);
-
-  // async componentDidUpdate(_, prevState) {
-
-  //   if (prevState.page !== page) {
-  //     setIsLoading(true)
-  // try {
-  //   const images = await getImages(page, value);
-  //   setImages(prevImage=>([...prevImage, ...images.hits]))
-  // } catch (error) {
-  //   setError(error)
-  // } finally {
-  //   setIsLoading(false)
-  // }
-  //   }
-
-  //   if (prevState.submitValue !== submitValue) {
-  //     setIsLoading(true)
-  //     try {
-  //       const images = await getImages(page, value);
-  //       setPage(1);
-  //       setImages(images.hits);
-  //       setTotalHits(images.totalHits)
-
-  //     } catch (error) {
-  //       setError(error)
-  //     } finally {
-  //       setIsLoading(false)
-  //     }
-  //   }
-  // }
 
   useEffect(() => {
     async function fetchImages() {
@@ -87,8 +56,6 @@ export const App = () => {
     }
   }, [page, submitValue]);
 
-
-
   const handleChangePage = () => {
     setPage(prevPage => prevPage + 1);
   };
@@ -101,7 +68,14 @@ export const App = () => {
   const handleSubmitInputValue = e => {
     e.preventDefault();
 
-    setSubmitValue(value);
+    setSubmitValue(prevValue => {
+      if (prevValue !== value) {
+        setImages(null);
+        setPage(1);
+        setTotalHits(null);
+      }
+      return value;
+    });
   };
 
   const handleToggleModal = image => {
@@ -130,4 +104,3 @@ export const App = () => {
     </div>
   );
 };
-
